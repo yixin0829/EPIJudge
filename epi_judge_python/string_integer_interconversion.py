@@ -4,12 +4,32 @@ from test_framework.test_failure import TestFailure
 
 def int_to_string(x: int) -> str:
     # TODO - you fill in here.
-    return '0'
+    result = []
+    neg = True if x < 0 else False
+    x = -x if neg else x
+
+    while x > 0:
+        result.append(str(x % 10))
+        x //= 10
+
+    if neg:
+        result.append("-")
+
+    return "".join(result[::-1])
 
 
 def string_to_int(s: str) -> int:
     # TODO - you fill in here.
-    return 0
+    result = 0
+    neg = True if s[0] == "-" else False
+    # turn "-123" or "+123" to "123"
+    if s[0] in ["-", "+"]:
+        s = s[1:]
+
+    for c in s:
+        result = result * 10 + ord(c) - ord("0")
+
+    return -result if neg else result
 
 
 def wrapper(x, s):

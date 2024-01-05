@@ -47,4 +47,4 @@ def is_valid_sudoku_pythonic(partial_assignment):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('is_valid_sudoku.py',
-                                       'is_valid_sudoku.tsv', is_valid_sudoku))
+                                       'is_valid_sudoku.tsv', is_valid_sudoku_pythonic))

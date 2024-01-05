@@ -3,7 +3,10 @@ from test_framework import generic_test
 
 def is_palindromic(s: str) -> bool:
     # TODO - you fill in here.
-    return True
+    return all(
+        a == b for a, b in zip(map(str.lower, filter(str.isalnum, s)),
+                               map(str.lower, filter(str.isalnum, reversed(s))))
+    )
 
 
 if __name__ == '__main__':

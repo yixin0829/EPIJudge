@@ -7,8 +7,59 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def has_cycle(head: ListNode) -> Optional[ListNode]:
+def has_cycle_bf(head: ListNode) -> Optional[ListNode]:
     # TODO - you fill in here.
+    # BF O(n) time and O(n) space solution: use a list to cache all the listnodes visited
+    visited = []
+    curr = head
+    while curr:
+        if curr.next in visited:
+            return visited[visited.index(curr.next)]
+        visited.append(curr)
+        curr = curr.next
+    return None
+
+def has_cycle_bf2(head: ListNode) -> Optional[ListNode]:
+    # O(n^2) time and O(1) space brute force
+    slow = head.next
+    fast = head.next
+    while slow:
+        while fast:
+            if fast.next == slow:
+                return slow
+            fast = fast.next
+        slow = slow.next
+    return None
+
+def has_cycle(head: ListNode) -> Optional[ListNode]:
+    # O(n) time and O(1) space slow & fast ptr method
+    if not head or not head.next:
+        return None
+
+    def cycle_len(end: ListNode) -> int:
+        runner, step = end, 0
+        while True:
+            step += 1
+            runner = runner.next
+            if runner is end:
+                return step
+
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+        if slow is fast:
+            # advance the pt n steps ahead where n = cycle length
+            cycle_len_ptr = head
+            for _ in range(cycle_len(slow)):
+                cycle_len_ptr = cycle_len_ptr.next
+
+            it = head
+            # both iterators advance in tandem (with constant cycle_len distance in between)
+            while it is not cycle_len_ptr:
+                it, cycle_len_ptr = slow.next, cycle_len_ptr.next
+            return slow
     return None
 
 

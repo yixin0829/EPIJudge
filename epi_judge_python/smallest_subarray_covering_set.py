@@ -9,11 +9,23 @@ from test_framework.test_utils import enable_executor_hook
 Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 
-def find_smallest_subarray_covering_set(paragraph: List[str],
+def find_smallest_subarray_covering_set_bf(paragraph: List[str],
                                         keywords: Set[str]) -> Subarray:
-    # TODO - you fill in here.
-    return Subarray(0, 0)
+    # O(n ^ 3) time brute force solution
+    smallest_subarray = Subarray(0, 10000)
+    for i in range(len(paragraph)):
+        for j in range(i, len(paragraph)):
 
+            if keywords <= set(paragraph[i:j+1]):
+                if (j - i) < (smallest_subarray.end - smallest_subarray.start):
+                    smallest_subarray = Subarray(i, j)
+
+    return smallest_subarray
+
+def find_smallest_subarray_covering_set(paragraph: List[str],
+                                           keywords: Set[str]) -> Subarray:
+    # O(n) two pointer solution -> see solution revisit later
+    return Subarray(-1, -1)
 
 @enable_executor_hook
 def find_smallest_subarray_covering_set_wrapper(executor, paragraph, keywords):

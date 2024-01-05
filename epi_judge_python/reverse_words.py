@@ -6,9 +6,24 @@ from test_framework.test_utils import enable_executor_hook
 
 # Assume s is a list of strings, each of which is of length 1, e.g.,
 # ['r', 'a', 'm', ' ', 'i', 's', ' ', 'c', 'o', 's', 't', 'l', 'y'].
-def reverse_words(s):
+def reverse_words(s: list[str]):
     # TODO - you fill in here.
-    return
+    # 1st pass to reverse individual word in the list
+    # [mar si yltsoc]
+    start = 0
+    for i in range(len(s)):
+        if s[i] == ' ':
+            s[start: i] = reversed(s[start: i])
+            start = i + 1 # assume only one whitespace between words
+
+        # end of the last word
+        if i == len(s) - 1:
+            s[start: i + 1] = reversed(s[start: i + 1])
+
+    # 2nd pass to reverse the whole string
+    # [costly is ram]
+    s.reverse()
+    return s
 
 
 @enable_executor_hook

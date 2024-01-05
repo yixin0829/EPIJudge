@@ -2,21 +2,48 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
-class Stack:
+class Stack_bf:
+    def __init__(self):
+        self.s = []
+
     def empty(self) -> bool:
-        # TODO - you fill in here.
-        return True
+        # O(n)
+        return len(self.s) == 0
 
     def max(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        # O(n)
+        return max(self.s)
 
     def pop(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        # O(1)
+        return self.s.pop()
 
     def push(self, x: int) -> None:
-        # TODO - you fill in here.
+        # O(1)
+        self.s.append(x)
+        return
+
+
+class Stack:
+    def __init__(self):
+        # a stack of tuple of (val, max at val)
+        self.s: list[tuple] = []
+
+    def empty(self) -> bool:
+        # O(n)
+        return len(self.s) == 0
+
+    def max(self) -> int:
+        # O(1) time with O(n) space cache
+        return max(self.s[-1])
+
+    def pop(self) -> int:
+        # O(1)
+        return self.s.pop()[0]  # recall tuple of (val, max at val)
+
+    def push(self, x: int) -> None:
+        # O(1)
+        self.s.append((x, x if self.empty() else max(self.max(), x)))
         return
 
 

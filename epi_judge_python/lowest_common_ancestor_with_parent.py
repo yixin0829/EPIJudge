@@ -10,8 +10,28 @@ from test_framework.test_utils import enable_executor_hook
 
 def lca(node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+    def find_depth(node: BinaryTreeNode):
+        depth = 0
+        while node.parent:
+            node = node.parent
+            depth += 1
+        return depth
+
+    node0_depth, node1_depth = map(find_depth, (node0, node1))
+
+    # always make node 0 the deeper one
+    if node1_depth > node0_depth:
+        node0, node1 = node1, node0
+
+    # ascends from the deeper node
+    for _ in range(abs(node0_depth - node1_depth)):
+        node0 = node0.parent
+
+    # now node 0 & 1 at same depth, move them in tandem until we reach the LCA
+    while node0 is not node1:
+        node0, node1 = node0.parent, node1.parent
+
+    return node0
 
 
 @enable_executor_hook

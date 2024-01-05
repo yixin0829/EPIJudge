@@ -1,23 +1,39 @@
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
+SCALE_FACTOR = 2
+
 
 class Queue:
     def __init__(self, capacity: int) -> None:
-        # TODO - you fill in here.
+        self.capacity = capacity
+        self.queue = [0] * capacity
+        self.head = self.tail = self.q_len = 0
         return
 
     def enqueue(self, x: int) -> None:
-        # TODO - you fill in here.
+        if self.q_len == self.capacity:
+            new_queue = [0] * self.capacity * SCALE_FACTOR
+            for i in range(self.capacity):
+                new_queue[i] = self.queue[(self.head + i) % self.capacity]
+            # enqueue the new element and replace the old queue
+            new_queue[self.capacity] = x
+            self.queue = new_queue
+            # reset head, tail, and capacity
+            self.head, self.tail, self.capacity = 0, self.capacity, self.capacity * SCALE_FACTOR
+        self.queue[self.tail % self.capacity] = x
+        self.tail += 1
+        self.q_len += 1
         return
 
     def dequeue(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        result, self.queue[self.head % self.capacity] = self.queue[self.head % self.capacity], 0
+        self.head += 1
+        self.q_len -= 1
+        return result
 
     def size(self) -> int:
-        # TODO - you fill in here.
-        return 0
+        return self.q_len
 
 
 def queue_tester(ops):
